@@ -2,13 +2,12 @@ import payload from 'payload'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import config from '../../../payload.config.js'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 // Load environment variables from .env file in the root directory
-dotenv.config({ path: path.resolve(dirname, '../../../.env') })
+dotenv.config({ path: path.resolve(dirname, '../../../../.env') })
 
 const runAdminSeeder = async () => {
   try {
@@ -30,6 +29,7 @@ const runAdminSeeder = async () => {
     console.log('🚀 Initializing Payload...')
 
     // Initialize Payload locally
+    const { default: config } = await import('../../../payload.config.js')
     await payload.init({
       config,
     })
