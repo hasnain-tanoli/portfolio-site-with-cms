@@ -19,6 +19,18 @@ export const About: GlobalConfig = {
       defaultValue: 'I build beautiful web experiences.',
     },
     {
+      name: 'email',
+      type: 'text',
+      required: true,
+      defaultValue: 'hello@hasnain.me',
+    },
+    {
+      name: 'location',
+      type: 'text',
+      required: true,
+      defaultValue: 'Dubai, UAE',
+    },
+    {
       name: 'bio',
       type: 'richText',
       label: 'Professional Bio',

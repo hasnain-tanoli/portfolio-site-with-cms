@@ -14,6 +14,16 @@ Creates a super admin user for accessing the Payload CMS admin panel.
 npm run seed:admin
 ```
 
+### Data Seeder
+
+Populates the portfolio with sample data for About, Skills, and Projects.
+
+**Usage:**
+
+```bash
+npm run seed:data
+```
+
 **Required Environment Variables:**
 
 Before running the seeder, ensure your `.env` file contains:

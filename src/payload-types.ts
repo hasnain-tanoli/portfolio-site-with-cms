@@ -70,7 +70,6 @@ export interface Config {
     users: User;
     media: Media;
     projects: Project;
-    testimonials: Testimonial;
     skills: Skill;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -82,7 +81,6 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
-    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     skills: SkillsSelect<false> | SkillsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -194,20 +192,6 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: number;
-  quote: string;
-  name: string;
-  role?: string | null;
-  company?: string | null;
-  photo?: (number | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "skills".
  */
 export interface Skill {
@@ -253,10 +237,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
-      } | null)
-    | ({
-        relationTo: 'testimonials';
-        value: number | Testimonial;
       } | null)
     | ({
         relationTo: 'skills';
@@ -368,19 +348,6 @@ export interface ProjectsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials_select".
- */
-export interface TestimonialsSelect<T extends boolean = true> {
-  quote?: T;
-  name?: T;
-  role?: T;
-  company?: T;
-  photo?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "skills_select".
  */
 export interface SkillsSelect<T extends boolean = true> {
@@ -438,6 +405,8 @@ export interface About {
   id: number;
   heroHeadline: string;
   heroSubtext: string;
+  email: string;
+  location: string;
   bio?: {
     root: {
       type: string;
@@ -464,6 +433,8 @@ export interface About {
 export interface AboutSelect<T extends boolean = true> {
   heroHeadline?: T;
   heroSubtext?: T;
+  email?: T;
+  location?: T;
   bio?: T;
   profileImage?: T;
   updatedAt?: T;

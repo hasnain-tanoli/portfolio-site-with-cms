@@ -2,8 +2,8 @@ import React from 'react'
 import './globals.css'
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: '',
+  title: "Hasnain's Portfolio",
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -11,7 +11,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body suppressHydrationWarning>
         <main>{children}</main>
       </body>
     </html>

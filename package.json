@@ -13,6 +13,7 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "seed:admin": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/seed/seeders/admin-seeder.ts",
+    "seed:data": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/seed/seeders/data-seeder.ts",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test",
