@@ -1,20 +1,33 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { ThemeToggle } from './ThemeToggle'
 
-const navLinks = [
-  { name: 'Home', href: '#' },
-  { name: 'About', href: '#about' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Contact', href: '#contact' },
-]
+interface NavbarProps {
+  data: {
+    logoText?: string | null
+    navLinks?: Array<{ label: string; link: string; id?: string | null }> | null
+    ctaText?: string | null
+  }
+}
 
-export const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
+export const Navbar = ({ data }: NavbarProps) => {
+  const [scrolled, setScrolled] = useState(false)
+
+  const links = data.navLinks?.length
+    ? data.navLinks
+    : [
+        { label: 'Home', link: '/' },
+        { label: 'About', link: '/#about' },
+        { label: 'Projects', link: '/#projects' },
+        { label: 'Blog', link: '/blog' },
+        { label: 'Contact', link: '/#contact' },
+      ]
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setScrolled(window.scrollY > 20)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -22,38 +35,50 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'py-4 bg-white/80 backdrop-blur-md shadow-sm border-b border-stone-100'
-          : 'py-6 bg-transparent'
+      className={`fixed top-0 z-50 w-full transition-all duration-500 px-6 py-8 ${
+        scrolled
+          ? 'py-4 backdrop-blur-xl bg-white/70 dark:bg-stone-950/70 border-b border-stone-200/50 dark:border-stone-800/50 shadow-sm'
+          : ''
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <a href="#" className="text-xl font-bold tracking-tight text-stone-900 group">
-          HT<span className="text-stone-400 group-hover:text-stone-900 transition-colors">.</span>
-        </a>
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <Link
+          href="/"
+          className="text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100 group"
+        >
+          {data.logoText || 'HT'}
+          <span className="text-stone-400 group-hover:text-stone-900 dark:group-hover:text-stone-100 transition-colors">
+            .
+          </span>
+        </Link>
 
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
+        {/* Desktop Nav */}
+        <div className="hidden items-center gap-10 md:flex">
+          {links.map((link) => (
             <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
+              key={link.label}
+              href={link.link}
+              className="text-sm font-bold uppercase tracking-widest text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
             >
-              {link.name}
+              {link.label}
             </a>
           ))}
-          <a
-            href="#contact"
-            className="px-5 py-2.5 bg-stone-900 text-white rounded-full text-sm font-medium hover:scale-105 transition-transform"
-          >
-            Hire Me
-          </a>
+
+          <div className="flex items-center gap-4 border-l border-stone-200 dark:border-stone-800 pl-8">
+            <ThemeToggle />
+            <a
+              href="#contact"
+              className="rounded-full bg-stone-900 dark:bg-stone-100 px-8 py-3 text-sm font-bold text-white dark:text-stone-900 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-stone-200 dark:shadow-none"
+            >
+              {data.ctaText || 'Hire Me'}
+            </a>
+          </div>
         </div>
 
         {/* Mobile Toggle (Simple) */}
-        <div className="md:hidden">
-          <button className="text-stone-900">
+        <div className="md:hidden flex items-center gap-4">
+          <ThemeToggle />
+          <button className="text-stone-900 dark:text-stone-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

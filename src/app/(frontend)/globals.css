@@ -1,8 +1,57 @@
 @import 'tailwindcss';
 
+/* Configure dark mode variant for Tailwind CSS v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Ensure dark mode works properly with next-themes */
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html.light {
+    color-scheme: light;
+  }
+
+  /* Custom Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #fafaf9;
+  }
+
+  html.dark ::-webkit-scrollbar-track {
+    background: #0c0a09;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #d6d3d1;
+    border-radius: 6px;
+    border: 2px solid #fafaf9;
+  }
+
+  html.dark ::-webkit-scrollbar-thumb {
+    background: #292524;
+    border: 2px solid #0c0a09;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a29e;
+  }
+
+  html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #44403c;
   }
 }
 

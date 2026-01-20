@@ -39,6 +39,11 @@ export const Projects: CollectionConfig = {
       ],
     },
     {
+      name: 'content',
+      type: 'richText',
+      label: 'Project Details',
+    },
+    {
       name: 'featured',
       type: 'checkbox',
       label: 'Featured Project',

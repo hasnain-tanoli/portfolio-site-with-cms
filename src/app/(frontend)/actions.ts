@@ -1,21 +1,67 @@
 'use server'
 
-import { redirect } from 'next/navigation'
+import { getPayload } from 'payload'
+import config from '@/payload.config'
 
 export async function submitContact(formData: FormData) {
-  const email = formData.get('email')
-  const message = formData.get('message')
+  const nameValue = formData.get('name')
+  const emailValue = formData.get('email')
+  const messageValue = formData.get('message')
 
-  // Validate fields
-  if (!email || !message) {
-    // In a real app, you'd verify these properly and return errors
-    console.error('Missing fields')
-    return
+  if (typeof emailValue !== 'string' || typeof messageValue !== 'string') {
+    console.error('Invalid form data: email and message must be strings')
+    return { success: false, error: 'Invalid form data' }
   }
 
-  // Process submission (e.g., save to DB, send email via Resend/SendGrid)
-  console.log('Contact Form Submitted:', { email, message })
+  const email = emailValue.trim()
+  const message = messageValue.trim()
+  const name = typeof nameValue === 'string' ? nameValue.trim() : ''
 
-  // Redirect or show success (For now, just redirect back to home with a query param)
-  redirect('/?success=true')
+  if (!email || !message) {
+    console.error('Missing required fields')
+    return { success: false, error: 'Email and message are required' }
+  }
+
+  try {
+    const payload = await getPayload({ config: await config })
+    const formId = process.env.NEXT_PUBLIC_CONTACT_FORM_ID
+
+    if (!formId) {
+      console.error('Contact form ID not configured')
+      return { success: false, error: 'Form not configured' }
+    }
+
+    const formIdNumber = parseInt(formId, 10)
+
+    if (isNaN(formIdNumber)) {
+      console.error('Invalid contact form ID: must be a valid number')
+      return { success: false, error: 'Invalid form configuration' }
+    }
+
+    await payload.create({
+      collection: 'form-submissions',
+      data: {
+        form: formIdNumber,
+        submissionData: [
+          {
+            field: 'name',
+            value: name || 'Anonymous',
+          },
+          {
+            field: 'email',
+            value: email,
+          },
+          {
+            field: 'message',
+            value: message,
+          },
+        ],
+      },
+    })
+
+    return { success: true }
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    return { success: false, error: 'Failed to submit form' }
+  }
 }
